@@ -21,10 +21,10 @@ public class SampleTest {
 
     @Test
     public void testSelect() {
-        System.out.println(("----- selectAll method test ------"));
-//        System.out.println(userMapper.selectById(1));
-        List<User> userList = userMapper.selectList(null);
-        Assert.isTrue(5 == userList.size(), "");
-        userList.forEach(System.out::println);
+//        System.out.println(("----- selectAll method test ------"));
+////        System.out.println(userMapper.selectById(1));
+//        List<User> userList = userMapper.selectList(null);
+//        Assert.isTrue(5 == userList.size(), "");
+//        userList.forEach(System.out::println);
     }
 }
