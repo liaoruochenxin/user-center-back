@@ -18,4 +18,9 @@ public interface Usercontant {
      * 管理员权限
       */
     int ADMIN_ROLE = 1;
+
+    /**
+     * 邀请码
+     */
+    String INVITATION_CODE = "190713";
 }

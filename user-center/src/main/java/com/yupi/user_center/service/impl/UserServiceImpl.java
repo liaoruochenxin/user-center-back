@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import static com.yupi.user_center.contant.Usercontant.INVITATION_CODE;
 import static com.yupi.user_center.contant.Usercontant.USER_LOGIN_STATE;
 
 /**
@@ -32,9 +33,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
     @Override
-    public long userRegister(String userAccount, String userPassword, String checkPassword) {
+    public long userRegister(String userAccount, String userPassword, String checkPassword, String invitationCode) {
         // 1.校验
-        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
+        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword, invitationCode)) {
             return -1;
         }
         if (userAccount.length() < 4) {
@@ -52,6 +53,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (!userPassword.equals(checkPassword)) {
             return -1;
         }
+        // 确认邀请码
+        if (!invitationCode.equals(INVITATION_CODE)) {
+            return -3;
+        }
         // 用户不能重复 （涉及数据库操作可以放在最后以提高性能）
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getUserAccount, userAccount);
@@ -65,6 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = new User();
         user.setUserAccount(userAccount);
         user.setUserPassword(resultPasswrod);
+        user.setInvitationCode(invitationCode);
         boolean saveResult = this.save(user);
         if (!saveResult) {
             return -1;
@@ -118,7 +124,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         safetyUser.setUserStatus(originalUser.getUserStatus());
         safetyUser.setCreateTime(originalUser.getCreateTime());
         safetyUser.setUserRole(originalUser.getUserRole());
+        safetyUser.setInvitationCode(originalUser.getInvitationCode());
         return safetyUser;
+    }
+
+    @Override
+    public int userLogOut(HttpServletRequest request) {
+        request.getSession().removeAttribute(USER_LOGIN_STATE);
+        return 0;
     }
 }
 

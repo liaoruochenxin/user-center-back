@@ -1,5 +1,4 @@
 package com.yupi.user_center.service;
-import java.util.Date;
 
 import com.yupi.user_center.mapper.UserMapper;
 import com.yupi.user_center.model.User;
@@ -7,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserServiceTest {
@@ -34,15 +31,15 @@ class UserServiceTest {
 
     @Test
     void userRegister() {
-        long result = userSer.userRegister("", "12345678", "12345678");
+        long result = userSer.userRegister("", "12345678", "12345678", "");
         Assertions.assertEquals(-1, result);
-        result = userSer.userRegister("yupi ", "12345678", "12345678");
+        result = userSer.userRegister("yupi ", "12345678", "12345678", "");
         Assertions.assertEquals(-1, result);
-        result = userSer.userRegister("yu", "12345678", "12345678");
+        result = userSer.userRegister("yu", "12345678", "12345678", "");
         Assertions.assertEquals(-1, result);
-        result = userSer.userRegister("yupi", "123456", "123456");
+        result = userSer.userRegister("yupi", "123456", "123456", "");
         Assertions.assertEquals(-1, result);
-        result = userSer.userRegister("yupi", "12345678", "123456789");
+        result = userSer.userRegister("yupi", "12345678", "123456789", "");
         Assertions.assertEquals(-1, result);
     }
 }
